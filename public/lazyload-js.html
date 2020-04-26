@@ -1,72 +1,3 @@
-## vue-lazyload实现图片懒加载
-
-### 项目准备
-```markdown
-npm install
-npm run serve
-```
-
-### 安装插件
-
-```
-npm install vue-lazyload   --save
-```
-
-或使用 cdn 引入
-
-```html
-<script src="https://unpkg.com/vue-lazyload/vue-lazyload.js"></script>
-```
-
-main.js 中引入插件
-
-```javascript
-import Vue from "vue";
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
-
-import VueLazyload from "vue-lazyload"
-
-// error:加载失败使用的图片
-// loading: 加载中使用的图片
-Vue.use(VueLazyload, {  
-  error: 'http://a2.att.hudong.com/36/48/19300001357258133412489354717.jpg',
-  // loading: 'http://img.zcool.cn/community/0195f55972f18ca8012193a342310a.gif',
-  loading: require('./assets/lazy.gif') // 若为本地图片需要 reqyire 引入
-})
-
-Vue.config.productionTip = false;
-
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount("#app");
-```
-
-### 使用
-
-img 标签中，使用 `v-lazy` 替换 `src` 即可
-
-```html
-<template>
-  <div class="home">
-    <div v-for="item in imgList">
-      <img class="img" v-lazy="item" />
-    </div>
-  </div>
-</template>
-```
-
-### 附：原生 `js` 实现懒加载
-
-**思路**：
-
-- [ ] 为 `img` 标签添加属性`src ` 中存储加载时的图片， `data-src` 里面存储真正的图片地址
-- [ ] 通过监听页面的滚动事件，当 `img` 标签滚动到当前视图窗口时，使用 `data-src` 中的地址替换 `src`
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -164,6 +95,7 @@ img 标签中，使用 `v-lazy` 替换 `src` 即可
       })
     }
 
+
     // 判断图片是否出现在视窗的函数
     function isShow($node) {
       return $node.offset().top <= $(window).height() + $(window).scrollTop();
@@ -182,5 +114,3 @@ img 标签中，使用 `v-lazy` 替换 `src` 即可
 </body>
 
 </html>
-```
-
